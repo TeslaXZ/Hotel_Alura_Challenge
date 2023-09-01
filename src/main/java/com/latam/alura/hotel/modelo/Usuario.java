@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,14 +19,18 @@ public class Usuario {
 	private String usuario;
 	@Column(nullable = false)
 	private String password;
+	@ManyToOne
+	private NivelDeAcceso nivelDeAcceso;
+
 
 	public Usuario() {
 	}
 
-	public Usuario(String nombre, String usuario, String contraseña) {
+	public Usuario(String nombre, String usuario, String contraseña, NivelDeAcceso nivelDeAcceso) {
 		this.nombre = nombre;
 		this.usuario = usuario;
 		this.password = contraseña;
+		this.nivelDeAcceso = nivelDeAcceso;
 	}
 
 	public String getUsuario() {
@@ -56,6 +61,12 @@ public class Usuario {
 		return id;
 	}
 	
-	
+	public NivelDeAcceso getNivelDeAcceso() {
+		return nivelDeAcceso;
+	}
+
+	public void setNivelDeAcceso(NivelDeAcceso nivelDeAcceso) {
+		this.nivelDeAcceso = nivelDeAcceso;
+	}
 
 }

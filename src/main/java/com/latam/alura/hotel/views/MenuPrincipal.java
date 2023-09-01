@@ -1,13 +1,17 @@
 package com.latam.alura.hotel.views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.latam.alura.hotel.controller.NivelDeAccesoController;
+import com.latam.alura.hotel.controller.UsuarioController;
 import java.awt.Panel;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -32,6 +36,12 @@ public class MenuPrincipal extends JFrame {
 				try {
 					MenuPrincipal frame = new MenuPrincipal();
 					frame.setVisible(true);
+					if(new UsuarioController().esPrimeraVez()) {
+						new NivelDeAccesoController().ingresarNivelesDeAcceso();
+						JOptionPane.showMessageDialog(null, "Registrate con tus datos");
+						MenuRegistro mr = new MenuRegistro();
+						mr.setVisible(true);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -77,7 +87,7 @@ public class MenuPrincipal extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblCopyR = new JLabel("Desarrollado por Fulanita de Tal © 2023");
+		JLabel lblCopyR = new JLabel("Desarrollado por Brian Diaz © 2023");
 		lblCopyR.setBounds(315, 11, 284, 19);
 		lblCopyR.setForeground(new Color(240, 248, 255));
 		lblCopyR.setFont(new Font("Roboto", Font.PLAIN, 16));
@@ -122,7 +132,7 @@ public class MenuPrincipal extends JFrame {
 			}
 		});
 		btnexit.setLayout(null);
-		btnexit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		btnexit.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 		btnexit.setBackground(Color.WHITE);
 		btnexit.setBounds(857, 0, 53, 36);
 		header.add(btnexit);

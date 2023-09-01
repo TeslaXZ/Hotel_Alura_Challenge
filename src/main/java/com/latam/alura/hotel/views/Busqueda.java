@@ -1,6 +1,5 @@
 package com.latam.alura.hotel.views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -8,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.latam.alura.hotel.controller.HuespedControlloler;
 import com.latam.alura.hotel.controller.ReservaController;
+import com.latam.alura.hotel.modelo.Usuario;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -37,26 +37,7 @@ public class Busqueda extends JFrame {
 	private JLabel labelExit;
 	int xMouse, yMouse;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Busqueda frame = new Busqueda();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Busqueda() {
+	public Busqueda(Usuario userActual) {
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Busqueda.class.getResource("/imagenes/lupa2.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -133,7 +114,7 @@ public class Busqueda extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MenuUsuario usuario = new MenuUsuario();
+				MenuUsuario usuario = new MenuUsuario(userActual);
 				usuario.setVisible(true);
 				dispose();
 			}
@@ -165,7 +146,7 @@ public class Busqueda extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MenuUsuario usuario = new MenuUsuario();
+				MenuUsuario usuario = new MenuUsuario(userActual);
 				usuario.setVisible(true);
 				dispose();
 			}
@@ -208,7 +189,7 @@ public class Busqueda extends JFrame {
 
 				String textoIngresado = txtBuscar.getText();
 				if (!(textoIngresado.isEmpty())) {
-					
+
 					if (textoIngresado.matches("[0-9]+")) {
 						Long numeroDeReserva = Long.parseLong(textoIngresado);
 						tbHuespedes.setModel(
@@ -220,7 +201,7 @@ public class Busqueda extends JFrame {
 								.setModel(new HuespedControlloler().buscarPorNumeroDeReservaOApellido(null, apellido));
 						tbReservas.setModel(new ReservaController().buscarPorApellido(apellido));
 					}
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "Ingresa el numero de reserva o el apellido");
 				}
 
@@ -279,7 +260,16 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBackground(new Color(12, 138, 199));
 		btnEliminar.setBounds(767, 508, 122, 35);
 		btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
 		contentPane.add(btnEliminar);
+
+		if (userActual.getNivelDeAcceso().getId() == 1) {
+			btnEliminar.setVisible(true);
+			btnEditar.setVisible(true);
+		} else {
+			btnEliminar.setVisible(false);
+			btnEditar.setVisible(false);
+		}
 
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override

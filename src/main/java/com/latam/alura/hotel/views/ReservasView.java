@@ -1,6 +1,5 @@
 package com.latam.alura.hotel.views;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -30,6 +29,7 @@ import javax.swing.border.LineBorder;
 
 import com.latam.alura.hotel.controller.ReservaController;
 import com.latam.alura.hotel.modelo.Reserva;
+import com.latam.alura.hotel.modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class ReservasView extends JFrame {
@@ -43,26 +43,7 @@ public class ReservasView extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ReservasView frame = new ReservasView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public ReservasView() {
+	public ReservasView(Usuario userActual) {
 		super("Reserva");
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ReservasView.class.getResource("/imagenes/aH-40px.png")));
@@ -163,7 +144,7 @@ public class ReservasView extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MenuPrincipal principal = new MenuPrincipal();
+				MenuUsuario principal = new MenuUsuario(userActual);
 				principal.setVisible(true);
 				dispose();
 			}
@@ -215,7 +196,7 @@ public class ReservasView extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MenuUsuario usuario = new MenuUsuario();
+				MenuUsuario usuario = new MenuUsuario(userActual);
 				usuario.setVisible(true);
 				dispose();
 			}
@@ -323,7 +304,7 @@ public class ReservasView extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
-					
+
 					Date FechaIngresoSeleccionada = ReservasView.txtFechaEntrada.getDate();
 					Date FechaEgresoSeleccionada = ReservasView.txtFechaSalida.getDate();
 
@@ -331,11 +312,11 @@ public class ReservasView extends JFrame {
 							.toLocalDate();
 					LocalDate fechaEgreso = FechaEgresoSeleccionada.toInstant().atZone(ZoneId.systemDefault())
 							.toLocalDate();
-					
+
 					Double valor = Double.parseDouble(ReservasView.txtValor.getText());
 					String formaPago = ReservasView.txtFormaPago.getSelectedItem().toString();
 					Reserva reserva = new ReservaController().guardar(fechaIngreso, fechaEgreso, valor, formaPago);
-					RegistroHuesped registro = new RegistroHuesped(reserva);
+					RegistroHuesped registro = new RegistroHuesped(reserva, userActual);
 					registro.setVisible(true);
 					dispose();
 				} else {

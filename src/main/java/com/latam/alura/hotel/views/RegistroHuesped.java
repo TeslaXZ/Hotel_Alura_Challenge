@@ -8,6 +8,7 @@ import java.awt.Color;
 
 import com.latam.alura.hotel.controller.HuespedControlloler;
 import com.latam.alura.hotel.modelo.Reserva;
+import com.latam.alura.hotel.modelo.Usuario;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -41,7 +42,7 @@ public class RegistroHuesped extends JFrame {
 	private JLabel labelAtras;
 	int xMouse, yMouse;
 
-	public RegistroHuesped(Reserva reserva) {
+	public RegistroHuesped(Reserva reserva, Usuario userActual) {
 
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(RegistroHuesped.class.getResource("/imagenes/lOGO-50PX.png")));
@@ -80,7 +81,7 @@ public class RegistroHuesped extends JFrame {
 		btnAtras.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ReservasView reservas = new ReservasView();
+				ReservasView reservas = new ReservasView(userActual);
 				reservas.setVisible(true);
 				dispose();
 			}
@@ -279,7 +280,7 @@ public class RegistroHuesped extends JFrame {
 						HuespedControlloler huespedController = new HuespedControlloler();
 						huespedController.guardar(nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva);
 						dispose();
-						Exito exito = new Exito();
+						Exito exito = new Exito(userActual);
 						exito.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "Debes ingresar un numero correcto");
@@ -322,7 +323,7 @@ public class RegistroHuesped extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MenuPrincipal principal = new MenuPrincipal();
+				MenuUsuario principal = new MenuUsuario(userActual);
 				principal.setVisible(true);
 				dispose();
 			}
