@@ -1,6 +1,6 @@
 package com.latam.alura.hotel.views;
 
-
+import javax.persistence.NoResultException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -42,7 +42,7 @@ public class UsuarioGerenteView extends JFrame {
 		contentPane.setLayout(null);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
-		
+
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -55,13 +55,13 @@ public class UsuarioGerenteView extends JFrame {
 				headerMouseDragged(e);
 			}
 		});
-		
+
 		JLabel lblNewLabel = new JLabel("Usuario");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Roboto", Font.BOLD, 15));
 		lblNewLabel.setBounds(50, 11, 142, 20);
 		contentPane.add(lblNewLabel);
-		
+
 		txtUsuario = new JTextField();
 		txtUsuario.setBackground(SystemColor.menu);
 		txtUsuario.setFont(new Font("Roboto", Font.PLAIN, 13));
@@ -69,54 +69,64 @@ public class UsuarioGerenteView extends JFrame {
 		txtUsuario.setBorder(null);
 		txtUsuario.setBounds(50, 41, 142, 20);
 		contentPane.add(txtUsuario);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(50, 62, 142, 2);
 		contentPane.add(separator_1);
-		
+
 		JLabel lblIngresaLaContrasea = new JLabel("Contraseña");
 		lblIngresaLaContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngresaLaContrasea.setFont(new Font("Roboto", Font.BOLD, 15));
 		lblIngresaLaContrasea.setBounds(50, 66, 142, 20);
 		contentPane.add(lblIngresaLaContrasea);
-		
+
 		txtPassword = new JPasswordField();
 		txtPassword.setBackground(SystemColor.menu);
 		txtPassword.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtPassword.setBorder(null);
 		txtPassword.setBounds(50, 96, 142, 20);
 		contentPane.add(txtPassword);
-		
+
 		JSeparator separator_1_1 = new JSeparator();
 		separator_1_1.setBounds(50, 117, 142, 2);
 		contentPane.add(separator_1_1);
-		
+
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(SystemColor.textHighlight);
 		panel.setBounds(50, 167, 142, 36);
 		contentPane.add(panel);
-		
+
 		JLabel lblIngresar = new JLabel("INGRESAR");
 		lblIngresar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				char[] password = txtPassword.getPassword();
 				String passwordIngresado = new String(password);
-				String usuario= txtUsuario.getText();
-				
-				UsuarioController uc = new UsuarioController();
-				Usuario userActual = uc.obtenerUsuario(usuario, passwordIngresado);
-				
-				if(userActual.getNivelDeAcceso().getId() == 1) {
-					JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
-					dispose();
-					MenuRegistro mr = new MenuRegistro();
-					mr.setVisible(true);
-				}else {
-					JOptionPane.showMessageDialog(null, "Ingreso Fallido o usuario no tiene permisos");
-				}
-				
+				String usuario = txtUsuario.getText();
+				try{
+					UsuarioController uc = new UsuarioController();
+					Usuario userActual = uc.obtenerUsuario(usuario, passwordIngresado);
+
+				if (!passwordIngresado.isEmpty() && !usuario.isEmpty()) {
+					
+						if (userActual.getNivelDeAcceso().getId() == 1) {
+							JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
+							dispose();
+							MenuRegistro mr = new MenuRegistro();
+							mr.setVisible(true);
+						} else {
+							JOptionPane.showMessageDialog(null, "Ingreso Fallido o usuario no tiene permisos");
+						}
+
+					}else {
+						JOptionPane.showMessageDialog(null, "Ingresa el usuario y contraseña");
+					}
+	
+					}catch (NoResultException ex) {
+						JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrectos: " + ex.toString());
+					}
+					
 			}
 		});
 		lblIngresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -125,14 +135,13 @@ public class UsuarioGerenteView extends JFrame {
 		lblIngresar.setFont(new Font("Roboto", Font.PLAIN, 14));
 		lblIngresar.setBounds(0, 0, 142, 36);
 		panel.add(lblIngresar);
-		
+
 		JPanel btnexit = new JPanel();
 		btnexit.setLayout(null);
 		btnexit.setBackground(new Color(12, 138, 199));
 		btnexit.setBounds(205, 0, 40, 36);
 		contentPane.add(btnexit);
-		
-		
+
 		JLabel labelExit = new JLabel("X");
 		labelExit.setBounds(0, 0, 40, 36);
 		btnexit.add(labelExit);
@@ -159,7 +168,7 @@ public class UsuarioGerenteView extends JFrame {
 			}
 		});
 	}
-	
+
 	private void headerMousePressed(java.awt.event.MouseEvent evt) {
 		xMouse = evt.getX();
 		yMouse = evt.getY();

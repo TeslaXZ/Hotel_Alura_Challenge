@@ -97,24 +97,9 @@ public class Login extends JFrame {
 		labelExit.setHorizontalAlignment(SwingConstants.CENTER);
 
 		txtUsuario = new JTextField();
-		txtUsuario.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (txtUsuario.getText().equals("Ingrese su nombre de usuario")) {
-					txtUsuario.setText("");
-					txtUsuario.setForeground(Color.black);
-				}
-				if (String.valueOf(txtContrasena.getPassword()).isEmpty()) {
-					txtContrasena.setText("********");
-					txtContrasena.setForeground(Color.gray);
-				}
-
-			}
-		});
-		txtUsuario.setFont(new Font("Roboto", Font.PLAIN, 16));
-		txtUsuario.setText("Ingrese su nombre de usuario");
+		txtUsuario.setFont(new Font("Roboto", Font.BOLD, 16));
 		txtUsuario.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		txtUsuario.setForeground(SystemColor.activeCaptionBorder);
+		txtUsuario.setForeground(SystemColor.BLACK);
 		txtUsuario.setBounds(65, 256, 324, 32);
 		panel.add(txtUsuario);
 		txtUsuario.setColumns(10);
@@ -136,22 +121,8 @@ public class Login extends JFrame {
 		panel.add(separator_1);
 
 		txtContrasena = new JPasswordField();
-		txtContrasena.setText("********");
-		txtContrasena.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				if (String.valueOf(txtContrasena.getPassword()).equals("********")) {
-					txtContrasena.setText("");
-					txtContrasena.setForeground(Color.black);
-				}
-				if (txtUsuario.getText().isEmpty()) {
-					txtUsuario.setText("Ingrese su nombre de usuario");
-					txtUsuario.setForeground(Color.gray);
-				}
-			}
-		});
-		txtContrasena.setForeground(SystemColor.activeCaptionBorder);
-		txtContrasena.setFont(new Font("Roboto", Font.PLAIN, 16));
+		txtContrasena.setForeground(SystemColor.BLACK);
+		txtContrasena.setFont(new Font("Roboto", Font.BOLD, 16));
 		txtContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		txtContrasena.setBounds(65, 353, 324, 32);
 		panel.add(txtContrasena);
@@ -236,7 +207,7 @@ public class Login extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(null,
-						"Se necesita autorizacion de un gerente para crear un nuevo usuario");
+						"Se necesitan permisos de administrador para crear un nuevo usuario");
 				UsuarioGerenteView usuarioGerente = new UsuarioGerenteView();
 				usuarioGerente.setVisible(true);
 			}
@@ -261,7 +232,7 @@ public class Login extends JFrame {
 				menu.setVisible(true);
 				dispose();
 			} else {
-				JOptionPane.showMessageDialog(null, "Ingresa el usuario y contraseña");
+				JOptionPane.showMessageDialog(null, "Usuario o contraseña invalidos");
 			}
 
 		} catch (NoResultException e) {

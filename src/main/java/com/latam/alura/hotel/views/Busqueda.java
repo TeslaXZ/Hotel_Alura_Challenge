@@ -240,9 +240,9 @@ public class Busqueda extends JFrame {
 
 				HuespedControlloler hc = new HuespedControlloler();
 				ReservaController rs = new ReservaController();
-
+				try {
 				if (tbHuespedes.isShowing()) {
-
+					
 					hc.modificar(tbHuespedes);
 					tbHuespedes.setModel(new HuespedControlloler().listar());
 				} else if (tbReservas.isShowing()) {
@@ -251,7 +251,10 @@ public class Busqueda extends JFrame {
 					tbReservas.setModel(new ReservaController().listar());
 				}
 
+			}catch (ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.showMessageDialog(null, "Selecciona un registro para editar");
 			}
+				}
 
 		});
 
@@ -281,14 +284,18 @@ public class Busqueda extends JFrame {
 				if (filaSeleccionadaHuespedes != -1) {
 					Long idHuespedes = (Long) tbHuespedes.getValueAt(filaSeleccionadaHuespedes, 0);
 					eliminarElemento(idHuespedes);
+					actualizarTablas();
 				}
 
-				if (filaSeleccionadaReserva != -1) {
+				else if (filaSeleccionadaReserva != -1) {
 					Long idReserva = (Long) tbReservas.getValueAt(filaSeleccionadaReserva, 0);
 					eliminarElemento(idReserva);
+					actualizarTablas();
+				}else {
+					JOptionPane.showMessageDialog(null, "Selecciona la fila a eliminar");
 				}
 
-				actualizarTablas();
+				
 			}
 
 		});

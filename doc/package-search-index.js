@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.latam.alura.hotel.controller"},{"l":"com.latam.alura.hotel.dao"},{"l":"com.latam.alura.hotel.modelo"},{"l":"com.latam.alura.hotel.utils"},{"l":"com.latam.alura.hotel.views"}];updateSearchResults();
